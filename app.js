@@ -1,0 +1,13 @@
+(function(){var m=document.querySelector('.mb');if(m)m.onclick=function(){var o=document.body.classList.toggle('nav-open');m.setAttribute('aria-expanded',o)};
+var fb=document.querySelector('.fb');if(fb)fb.onclick=function(){var o=document.body.classList.toggle('f-open');fb.setAttribute('aria-expanded',o)};})();
+function shop(col){var $=function(i){return document.getElementById(i)},U=new URLSearchParams(location.search),st={c:col||U.get('c')||'',q:U.get('q')||'',s:'new',n:24,nw:U.get('new'),fe:U.get('f')};
+ var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})},B=window.B,cn=function(c){return(C.find(function(x){return x.slug===c})||{}).title||c};
+ function list(){var q=st.q.toLowerCase().trim(),r=P.filter(function(p){return(!st.c||p.c===st.c)&&(!st.nw||p.w)&&(!st.fe||p.f)&&(!q||(p.n+' '+p.t.join(' ')+' '+cn(p.c)).toLowerCase().indexOf(q)>-1)});
+  if(st.s==='name')r.sort(function(a,b){return a.n.localeCompare(b.n)});else if(st.s==='lo'||st.s==='hi'){r=r.filter(function(p){return p.p!=null}).sort(function(a,b){return st.s==='lo'?a.p-b.p:b.p-a.p})}else r.sort(function(a,b){return(b.w?1:0)-(a.w?1:0)});return r}
+ function draw(){var r=list();$('count').textContent=r.length+' design'+(r.length===1?'':'s');$('empty').hidden=r.length>0;$('more').hidden=r.length<=st.n;
+  $('grid').innerHTML=r.slice(0,st.n).map(function(p){return'<a class=card href="'+B+'product/'+p.s+'/"><span class=im><img src="'+B+p.i+'" alt="'+esc(p.n)+' phone case" loading=lazy>'+(p.w?'<i class=bd>New</i>':'')+'</span><span class=ct><b>'+esc(p.n)+'</b><small>'+esc(cn(p.c))+'</small>'+(p.p!=null?'<span class=pr>₹'+p.p+'</span>':'')+'</span></a>'}).join('');
+  if($('chips'))$('chips').innerHTML=['<button data-c="" '+(st.c?'':'class=on')+'>All</button>'].concat(C.map(function(c){return'<button data-c="'+c.slug+'" '+(st.c===c.slug?'class=on':'')+'>'+esc(c.title)+'</button>'})).join('')}
+ $('q').value=st.q;$('q').oninput=function(){st.q=this.value;st.n=24;draw()};$('sort').onchange=function(){st.s=this.value;draw()};$('more').onclick=function(){st.n+=24;draw()};
+ $('clr').onclick=function(){st.q='';st.s='new';st.nw=st.fe='';if(!col)st.c='';$('q').value='';$('sort').value='new';st.n=24;draw()};
+ if($('chips'))$('chips').onclick=function(e){if(e.target.dataset&&e.target.dataset.c!==undefined){st.c=e.target.dataset.c;st.n=24;draw()}};draw()}
+function phones(){var b=document.getElementById('br'),m=document.getElementById('md');b.onchange=function(){var l=PH[b.value]||[];m.disabled=!l.length;m.innerHTML=l.length?l.map(function(x){return'<option>'+x+'</option>'}).join(''):'<option>Select brand first</option>'}}

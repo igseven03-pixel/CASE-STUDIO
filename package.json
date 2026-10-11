@@ -1,0 +1,1 @@
+{"name":"case-studio","type":"module","scripts":{"build":"node build.mjs","start":"npx serve dist"},"devDependencies":{"sharp":"^0.33.0"}}
